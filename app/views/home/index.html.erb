@@ -1,0 +1,7 @@
+<h1>Welcome to Blogs</h1>
+
+<p>This is my first Rails Blog application.</p>
+
+<% if user_signed_in? %>
+  <p>Welcome <%= current_user.email %></p>
+<% end %>

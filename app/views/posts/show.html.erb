@@ -1,0 +1,51 @@
+<h1><%= @post.title %></h1>
+
+<p><%= @post.body %></p>
+
+<hr>
+
+<% if @post.user == current_user %>
+  <%= link_to "Edit", edit_post_path(@post) %> |
+
+  <%= button_to "Delete", @post, method: :delete %> |
+<% end %>
+
+<%= link_to "Back", posts_path %>
+
+
+
+<hr>
+
+<h2>Comments</h2>
+
+<% @post.comments.each do |comment| %>
+
+  <p>
+    <strong><%= comment.user.email %></strong>
+  </p>
+
+  <p><%= comment.body %></p>
+
+  <hr>
+
+<% end %>
+
+
+
+
+
+<h2>Add Comment</h2>
+
+<%= form_with model: [@post, @comment] do |form| %>
+
+  <div>
+    <%= form.label :body %><br>
+
+    <%= form.text_area :body %>
+  </div>
+
+  <br>
+
+  <%= form.submit "Add Comment" %>
+
+<% end %>
