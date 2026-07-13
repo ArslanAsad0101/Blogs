@@ -1,7 +1,10 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!
 before_action :set_post, only: [:show]
-before_action :set_owned_post, only: [:edit, :update, :destroy]
+before_action :set_editable_post, only: [:edit, :update, :destroy]
+before_action :authorize_post_creation, only: [:new, :create]
+
+
     # Index page where all the post will be displayed
     def index
         @posts = Post.all
@@ -64,7 +67,17 @@ def set_post
   @post = Post.find(params[:id])
 end
 
-def set_owned_post
-  @post = current_user.posts.find(params[:id])
+def set_editable_post
+  @post = Post.find(params[:id])
+
+  unless current_user.admin? || @post.user == current_user
+    redirect_to posts_path, alert: "You are not allowed to perform this action."
+  end
 end
+
+def authorize_post_creation
+    unless current_user.author? || current_user.admin?
+      redirect_to posts_path, alert: "You are not allowed to create posts."
+    end
+  end
 end
