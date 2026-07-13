@@ -29,7 +29,11 @@
 
       <% end %>
 
+<br>
 
+      <% if user_signed_in? %>
+        <p>Welcome, <%= current_user.role %></p>
+      <% end %>
 
   
   </nav>
