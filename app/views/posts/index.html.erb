@@ -1,7 +1,7 @@
 <h1>My Posts</h1>
 
 <% if current_user.author? || current_user.admin? %>
-  <%= link_to "New Post", new_post_path %>
+  <%= link_to "New Post", new_post_path, class: "button" %>
 <% end %>
 <hr>
 
@@ -13,13 +13,11 @@
 
   <p><%= truncate(post.body, length: 100) %></p>
 
-<%= link_to "Show", post %>
+<%= link_to "Show", post, class: "button button-secondary" %>
 
 <% if current_user.admin? || post.user == current_user %>
-  |
-  <%= link_to "Edit", edit_post_path(post) %>
-  |
-  <%= button_to "Delete", post, method: :delete %>
+  <%= link_to "Edit", edit_post_path(post), class: "button button-secondary" %>
+  <%= button_to "Delete", post, method: :delete, form: { class: "inline-form" } %>
 <% end %>
 
   <hr>

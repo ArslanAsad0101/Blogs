@@ -1,24 +1,33 @@
-<body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blogs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
 
-  <nav>
+  <body>
+    <nav>
+      <%= link_to "Home", root_path %> |
 
-    <%= link_to "Home", root_path %> |
+      <% if user_signed_in? %>
 
-    <% if user_signed_in? %>
+        <%= link_to "Posts", posts_path %> |
 
-      <%= link_to "Posts", posts_path %> |
+        <%= link_to "Dashboard", dashboard_path %> |
 
-      <%= link_to "Dashboard", dashboard_path %> |
+        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
 
-      <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+      <% else %>
 
-    <% else %>
+        <%= link_to "Login", new_user_session_path %> |
 
-      <%= link_to "Login", new_user_session_path %> |
+        <%= link_to "Sign Up", new_user_registration_path %>
 
-      <%= link_to "Sign Up", new_user_registration_path %>
-
-    <% end %>
+      <% end %>
 
 
 
@@ -29,14 +38,16 @@
 
   <hr>
 
-  <% flash.each do |type, message| %>
-  <div>
-    <strong><%= type.capitalize %>:</strong>
-    <%= message %>
-  </div>
-<% end %>
+  <main class="main-content">
+    <% flash.each do |type, message| %>
+      <div class="flash-message">
+        <strong><%= type.capitalize %>:</strong>
+        <%= message %>
+      </div>
+    <% end %>
 
-  <%= yield %>
+    <%= yield %>
+  </main>
 
 
 
